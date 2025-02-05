@@ -1,13 +1,21 @@
+clear;
+
 eeglab nogui;
 
-%load and show data
-EEG = pop_loadbv('your_data_path\', 'face_014_2.vhdr', [], []);
-EEG = pop_chanedit(EEG, 'lookup','your_eeglab_path\eeglab2022.0\plugins\dipfit\standard_BEM\elec\standard_1005.elc');
+%change below to your own data path, e.g., 'D:\dataset1_face'
+data_path = 'your_data_path';
+%change below to your EEGLAB path
+eeglab_elec = 'your_EEGLAB_path\eeglab2022.0\plugins\dipfit\standard_BEM\elec\standard_1005.elc';
+data_name = 'face_014_2.vhdr';
+
+%load data, down_sample, and filter
+EEG = pop_loadbv(data_path, data_name, [], []);
+EEG = pop_chanedit(EEG, 'lookup',eeglab_elec);
 EEG = pop_resample(EEG, 250);
 EEG = pop_eegfiltnew(EEG,'hicutoff',40,'locutoff',1,'plotfreqz',0);
 
 %we skip the visual checking and electrode interpolation for this data as
-%no electrode is problematic
+%no electrode is problematic; you can find the code from script_1
 
 %remove ocular
 EEG = ICA_correction(EEG);%based on the time window from around 50 s to 200 s (remember to click 'Save Data')
@@ -15,4 +23,4 @@ EEG = ICA_correction(EEG);%based on the time window from around 50 s to 200 s (r
 %remove large-amplitude artifacts
 EEG = PCA_correction(EEG);
 
-pop_saveset(EEG,'filepath','your_path\','filename','face_014_2.set');
+pop_saveset(EEG,'filepath','your_saving_path','filename','face_014_2.set');
