@@ -108,7 +108,7 @@ function EEG = ICA_correction(EEG)
                end
            end
           
-           EEG_ori.icaact = EEG.icaact;
+           % EEG_ori.icaact = EEG.icaact;
            EEG_ori.icawinv = EEG.icawinv;
            EEG_ori.icasphere = EEG.icasphere;
            EEG_ori.icaweights = EEG.icaweights;
